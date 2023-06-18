@@ -5,7 +5,7 @@ require("dotenv").config();
 const userAuth = async (req, res, next) => {
   try {
     const token =
-      req.headers.authorization || req.cookies.token || req.query.token;
+      req.headers.Authorization || req.cookies.token || req.query.token;
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
