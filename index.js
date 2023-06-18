@@ -21,10 +21,10 @@ app.use("/professional", professionalRouter);
 app.use("/services", serviceRouter);
 app.use("/appointment", appoinmentRouter);
 
-// app.use("/", googleRouter);
-app.get("/", (req, res) => {
-  res.send("heelllooo");
-});
+app.use("/", googleRouter);
+// app.get("/", (req, res) => {
+//   res.send("heelllooo");
+// });
 app.listen(process.env.PORT, () => {
   connection();
 });
