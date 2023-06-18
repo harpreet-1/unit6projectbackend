@@ -30,7 +30,7 @@ googleRouter.get(
 googleRouter.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/login/protected",
+    successRedirect: "/protected",
     failureRedirect: "/auth/google/failure",
   })
 );

@@ -37,6 +37,7 @@ async function sendOtp(name, email, otp) {
     The BeautyBlaze Team`,
   });
   console.log(maildetail);
+  return maildetail;
 }
 
 module.exports = { sendOtp, generateOtp };

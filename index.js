@@ -21,7 +21,7 @@ app.use("/professional", professionalRouter);
 app.use("/services", serviceRouter);
 app.use("/appointment", appoinmentRouter);
 
-app.use("/login", googleRouter);
+app.use("/", googleRouter);
 // app.get("/", (req, res) => {
 //   res.send("heelllooo");
 // });
