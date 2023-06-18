@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon Controllers/google.oauth.js",
-    "start": "index.js"
+    "test": "nodemon Controllers/google.oauth.js"
   },
   "keywords": [],
   "author": "",
