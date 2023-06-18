@@ -7,10 +7,11 @@ const serviceSchema = new mongoose.Schema({
   pricing: { type: Number },
   professional: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Professional",
+    ref: "BeautyProfessional",
     required: true,
   },
   image: String,
+  category: String,
 });
 
 const ServiceModel = mongoose.model("Service", serviceSchema);

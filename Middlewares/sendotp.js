@@ -8,6 +8,7 @@ function generateOtp() {
 
 async function sendOtp(name, email, otp) {
   otp = generateOtp();
+  console.log(otp);
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {

@@ -31,4 +31,4 @@ const professionalAuth = async (req, res, next) => {
 
 module.exports = professionalAuth;
 
-console.log(process.env.JWT_SECRET_KEY);
+// console.log(process.env.JWT_SECRET_KEY);

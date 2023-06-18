@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { sendOtp, generateOtp } = require("../Middlewares/sendotp");
 const UserModel = require("../Models/user");
 const BlacklistModel = require("../Models/blacklist");
+const userAuth = require("../Middlewares/userAuth");
 require("dotenv").config();
 const userRouter = express.Router();
 
@@ -17,19 +18,9 @@ userRouter.post("/register", async (req, res) => {
     if (existingUser) {
       // Checking  email  verified or not--------------
 
-      if (!user.emailVerified) {
-        sendOtp(name, email, otp);
-        user.otp = otp;
-        await user.save();
-        return res.status(201).json({
-          message:
-            "User registered successfully. Please check your email for the OTP.",
-        });
-      } else {
-        return res
-          .status(400)
-          .json({ message: "Email already registered Please Login" });
-      }
+      return res
+        .status(400)
+        .json({ message: "Email already registered Please Login" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 5);
@@ -82,6 +73,15 @@ userRouter.post("/login", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    const otp = generateOtp();
+    if (!user.emailVerified) {
+      sendOtp(user.name, email, otp);
+      user.otp = otp;
+      await user.save();
+      return res.status(201).json({
+        message: "Please check your email for the OTP  for Email verification.",
+      });
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
@@ -91,6 +91,10 @@ userRouter.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "7d",
     });
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      httpOnly: true,
+    });
 
     res.json({ token, user });
   } catch (error) {
@@ -98,6 +102,8 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
+// --------------------authorization---------------------------
+userRouter.use(userAuth);
 // ---------------------------user profile--------------------------
 userRouter.get("/profile/", async (req, res) => {
   try {
@@ -250,7 +256,9 @@ userRouter.delete("/:id", async (req, res) => {
 // -----------------logout user  by  blacklisting------------------
 
 userRouter.post("/logout", async (req, res) => {
+  res.clearCookie("token");
   const { token } = req.body;
+  res.clearCookie("token");
 
   const newBlacklistedToken = new BlacklistModel({ token });
   await newBlacklistedToken.save();

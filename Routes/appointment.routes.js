@@ -1,12 +1,13 @@
 const express = require("express");
 const AppointmentModel = require("../Models/appointment");
+const professionalAuth = require("../Middlewares/professionalAuth");
 const apoointmentRouter = express.Router();
 
 // POST /appointments/book----------------
 apoointmentRouter.post("/book", async (req, res) => {
   try {
-    const { beautyProfessionalID, service, date, time, notes } = req.body;
-    const customerID = req.customerID;
+    const { ProfessionalID, serviceID, date, time, notes } = req.body;
+    const customerID = req.user._id;
 
     const existingAppointment = await AppointmentModel.findOne({
       beautyProfessionalID: beautyProfessionalID,
@@ -22,8 +23,8 @@ apoointmentRouter.post("/book", async (req, res) => {
     }
     const newAppointment = new AppointmentModel({
       customerID,
-      beautyProfessionalID,
-      service,
+      beautyProfessionalID: ProfessionalID,
+      service: serviceID,
       date,
       time,
       notes,
@@ -37,17 +38,27 @@ apoointmentRouter.post("/book", async (req, res) => {
   }
 });
 
-// ---------------------- /appointments/professional/-------------------------
+// ---------------------- /appointments/professional/-------------------------p
+
+// apoointmentRouter.use(professionalAuth);
+
 apoointmentRouter.get("/", async (req, res) => {
   try {
-    const professionalID = req.professionalID;
+    const professionalID = "648e95f137b1838d156af177";
 
+    // const appointments = await AppointmentModel.find({
+    //   beautyProfessionalID: "648e95f137b1838d156af177",
+    // });
     const appointments = await AppointmentModel.find({
-      beautyProfessionalID: professionalID,
+      beautyProfessionalID: "648e95f137b1838d156af177",
     })
-      .sort({ date: 1, time: 1 })
+      .sort({
+        date: 1,
+        time: 1,
+      })
       .populate("customerID")
-      .populate("service");
+      .populate("service")
+      .populate("beautyProfessionalID");
 
     res.status(200).json({ success: true, appointments });
   } catch (error) {
@@ -78,3 +89,5 @@ apoointmentRouter.put("/status/:appointmentID", async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+module.exports = apoointmentRouter;
