@@ -73,15 +73,15 @@ userRouter.post("/login", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const otp = generateOtp();
-    if (!user.emailVerified) {
-      sendOtp(user.name, email, otp);
-      user.otp = otp;
-      await user.save();
-      return res.status(201).json({
-        message: "Please check your email for the OTP  for Email verification.",
-      });
-    }
+    // const otp = generateOtp();
+    // if (!user.emailVerified) {
+    //   sendOtp(user.name, email, otp);
+    //   user.otp = otp;
+    //   await user.save();
+    //   return res.status(201).json({
+    //     message: "Please check your email for the OTP  for Email verification.",
+    //   });
+    // }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
