@@ -34,11 +34,10 @@ userRouter.post("/register", async (req, res) => {
     });
 
     const savedUser = await newUser.save();
-    let res = await sendOtp(name, email, otp);
+    sendOtp(name, email, otp);
     return res.status(201).json({
       message:
         "User registered successfully. Please check your email for the OTP.",
-      res,
     });
   } catch (error) {
     console.error("Error registering user:", error);
