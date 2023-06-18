@@ -25,7 +25,7 @@ apoointmentRouter.post("/book", async (req, res) => {
     }
     const newAppointment = new AppointmentModel({
       customerID,
-      beautyProfessionalID: ProfessionalID,
+      beautyProfessionalID: beautyProfessionalID,
       service: service,
       date,
       time,
