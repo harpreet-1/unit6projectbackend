@@ -1,12 +1,13 @@
 const express = require("express");
 const AppointmentModel = require("../Models/appointment");
 const professionalAuth = require("../Middlewares/professionalAuth");
+const userAuth = require("../Middlewares/userAuth");
 const apoointmentRouter = express.Router();
 
 // POST /appointments/book----------------
-apoointmentRouter.post("/book", async (req, res) => {
+apoointmentRouter.post("/book", userAuth, async (req, res) => {
   try {
-    const { ProfessionalID, serviceID, date, time, notes } = req.body;
+    const { beautyProfessionalID, service, date, time, notes } = req.body;
     const customerID = req.user._id;
 
     const existingAppointment = await AppointmentModel.findOne({
@@ -24,7 +25,7 @@ apoointmentRouter.post("/book", async (req, res) => {
     const newAppointment = new AppointmentModel({
       customerID,
       beautyProfessionalID: ProfessionalID,
-      service: serviceID,
+      service: service,
       date,
       time,
       notes,
