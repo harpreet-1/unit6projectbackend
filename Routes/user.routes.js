@@ -107,7 +107,7 @@ userRouter.use(userAuth);
 // ---------------------------user profile--------------------------
 userRouter.get("/profile/", async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const user = await UserModel.findById(userId);
 
     if (!user) {

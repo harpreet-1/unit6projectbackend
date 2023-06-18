@@ -7,8 +7,9 @@ const apoointmentRouter = express.Router();
 // POST /appointments/book----------------
 apoointmentRouter.post("/book", async (req, res) => {
   try {
-    const { beautyProfessionalID, service, date, time, notes } = req.body;
-    const customerID = req.user._id;
+    const { beautyProfessionalID, customerID, service, date, time, notes } =
+      req.body;
+    // const customerID = req.user._id;
 
     const existingAppointment = await AppointmentModel.findOne({
       beautyProfessionalID: beautyProfessionalID,
