@@ -6,7 +6,7 @@ require("dotenv").config();
 const professionalAuth = async (req, res, next) => {
   try {
     const token =
-      req.headers.Authorization || req.cookies.token || req.query.token;
+      req.cookies.token || req.headers.Authorization || req.query.token;
 
     const isblacklisted = await BlacklistModel.findOne({ token });
 
