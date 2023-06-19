@@ -45,6 +45,7 @@ apoointmentRouter.post("/book", userAuth, async (req, res) => {
 // apoointmentRouter.use(professionalAuth);
 
 apoointmentRouter.get("/", professionalAuth, async (req, res) => {
+  res.send("hhllllo");
   try {
     const professionalID = req.professionalID;
 
