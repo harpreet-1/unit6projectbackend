@@ -63,15 +63,22 @@ googleRouter.get("/protected", isLoggedIn, async (req, res) => {
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       httpOnly: true,
     });
-    res.send(`<a href="https://pear-splendid-bee.cyclic.app/users" id="myid" style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #222222; margin: 0; padding: 0; overflow: scroll;">
+    res.send(`<a href="https://pear-splendid-bee.cyclic.app/appointment/book" id="myid" style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #222222; margin: 0; padding: 0; overflow: scroll;">
                       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/b6e0b072897469.5bf6e79950d23.gif" alt="">
                   </a>
                   <script>
                   localStorage.setItem("token", ${JSON.stringify(token)});
                       let a = document.getElementById('myid')
                       setTimeout(()=>{
-                          a.click()
+                          // a.click()
                       },2000)
+
+                      fetch("https://pear-splendid-bee.cyclic.app/appointment/book", {
+                        method: "POST",
+                      })
+                        .then((res) => res.json())
+                        .then((data) => console.log(data));
+
                       console.log(a)
                   </script>
           `);
