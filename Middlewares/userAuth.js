@@ -7,7 +7,7 @@ const userAuth = async (req, res, next) => {
     const token =
       req.headers.Authorization || req.cookies.token || req.query.token;
 
-    return res.send("auth from me", token);
+    return res.json({ msg: "auth from me", token });
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
