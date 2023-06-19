@@ -2,12 +2,13 @@ const jwt = require("jsonwebtoken");
 
 const BlacklistModel = require("../Models/blacklist");
 const BeautyProfessionalModel = require("../Models/beautyProfessional");
+const { json } = require("express");
 require("dotenv").config();
 const professionalAuth = async (req, res, next) => {
   try {
     const token =
       req.cookies.token || req.headers.Authorization || req.query.token;
-
+    return res.json({ token });
     const isblacklisted = await BlacklistModel.findOne({ token });
 
     if (isblacklisted) {
