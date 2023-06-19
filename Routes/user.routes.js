@@ -91,11 +91,11 @@ userRouter.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "7d",
     });
+
     res.cookie("token", token, {
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       httpOnly: true,
     });
-
     res.json({ token, user });
   } catch (error) {
     res.status(500).json({ message: "An error occurred" });
