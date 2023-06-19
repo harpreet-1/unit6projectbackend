@@ -5,7 +5,7 @@ const userAuth = require("../Middlewares/userAuth");
 const apoointmentRouter = express.Router();
 
 // POST /appointments/book----------------
-apoointmentRouter.post("/book", userAuth, async (req, res) => {
+apoointmentRouter.post("/book", async (req, res) => {
   try {
     const { beautyProfessionalID, customerID, service, date, time, notes } =
       req.body;
