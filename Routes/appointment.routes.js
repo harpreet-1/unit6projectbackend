@@ -44,9 +44,9 @@ apoointmentRouter.post("/book", userAuth, async (req, res) => {
 
 // apoointmentRouter.use(professionalAuth);
 
-apoointmentRouter.get("/", async (req, res) => {
+apoointmentRouter.get("/:professionalID", async (req, res) => {
   try {
-    const { professionalID } = req.body;
+    const { professionalID } = req.params;
 
     // const appointments = await AppointmentModel.find({
     //   beautyProfessionalID: "648e95f137b1838d156af177",
