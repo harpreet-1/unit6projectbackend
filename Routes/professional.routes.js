@@ -47,15 +47,15 @@ professionalRouter.post("/login", async (req, res) => {
     if (!beautyProfessional) {
       return res.status(404).json({ message: "beautyProfessional not found" });
     }
-    const otp = generateOtp();
-    if (!beautyProfessional.emailVerified) {
-      sendOtp(beautyProfessional.name, email, otp);
-      beautyProfessional.otp = otp;
-      await beautyProfessional.save();
-      return res.status(201).json({
-        message: "Please check your email for the OTP  for Email verification.",
-      });
-    }
+    // const otp = generateOtp();
+    // if (!beautyProfessional.emailVerified) {
+    //   sendOtp(beautyProfessional.name, email, otp);
+    //   beautyProfessional.otp = otp;
+    //   await beautyProfessional.save();
+    //   return res.status(201).json({
+    //     message: "Please check your email for the OTP  for Email verification.",
+    //   });
+    // }
 
     const isPasswordValid = await bcrypt.compare(
       password,
@@ -72,10 +72,14 @@ professionalRouter.post("/login", async (req, res) => {
         expiresIn: "7d",
       }
     );
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    });
 
     res.json({ token, beautyProfessional });
   } catch (error) {
-    res.status(500).json({ message: "An error occurred" });
+    res.status(500).json({ message: "An error occurred", error });
   }
 });
 

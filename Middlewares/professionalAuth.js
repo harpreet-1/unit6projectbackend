@@ -5,7 +5,8 @@ const BeautyProfessionalModel = require("../Models/beautyProfessional");
 require("dotenv").config();
 const professionalAuth = async (req, res, next) => {
   try {
-    const token = req.header("Authorization").split(" ")[1];
+    const token =
+      req.headers.Authorization || req.cookies.token || req.query.token;
 
     const isblacklisted = await BlacklistModel.findOne({ token });
 

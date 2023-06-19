@@ -70,7 +70,7 @@ googleRouter.get("/protected", isLoggedIn, async (req, res) => {
                   localStorage.setItem("token", ${JSON.stringify(token)});
                       let a = document.getElementById('myid')
                       setTimeout(()=>{
-                          // a.click()
+                          a.click()
                       },2000)
 
                       fetch("https://pear-splendid-bee.cyclic.app/appointment/book", {

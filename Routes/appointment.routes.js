@@ -44,15 +44,15 @@ apoointmentRouter.post("/book", userAuth, async (req, res) => {
 
 // apoointmentRouter.use(professionalAuth);
 
-apoointmentRouter.get("/", async (req, res) => {
+apoointmentRouter.get("/", professionalAuth, async (req, res) => {
   try {
-    const professionalID = "648e95f137b1838d156af177";
+    const professionalID = req.professionalID;
 
     // const appointments = await AppointmentModel.find({
     //   beautyProfessionalID: "648e95f137b1838d156af177",
     // });
     const appointments = await AppointmentModel.find({
-      beautyProfessionalID: "648e95f137b1838d156af177",
+      beautyProfessionalID: professionalID,
     })
       .sort({
         date: 1,
@@ -79,6 +79,26 @@ apoointmentRouter.put("/status/:appointmentID", async (req, res) => {
       { status },
       { new: true }
     );
+
+    if (!appointment) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Appointment not found" });
+    }
+
+    res.status(200).json({ success: true, appointment });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+apoointmentRouter.delete("/:appointmentID", async (req, res) => {
+  try {
+    const appointmentID = req.params.appointmentID;
+    // const { status } = req.body;
+
+    // Find the appointment by ID and update the status
+    const appointment = await AppointmentModel.findByIdAndDelete(appointmentID);
 
     if (!appointment) {
       return res

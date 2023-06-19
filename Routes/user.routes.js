@@ -96,7 +96,7 @@ userRouter.post("/login", async (req, res) => {
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       httpOnly: true,
     });
-    res.json({ token, user });
+    return res.json({ token, user });
   } catch (error) {
     res.status(500).json({ message: "An error occurred" });
   }
