@@ -6,7 +6,7 @@ const { connection } = require("./server");
 const { userRouter } = require("./Routes/user.routes");
 const professionalRouter = require("./Routes/professional.routes");
 const serviceRouter = require("./Routes/services.routes");
-const googleRouter = require("./Controllers/google.oauth");
+// const googleRouter = require("./Controllers/google.oauth");
 
 const appoinmentRouter = require("./Routes/appointment.routes");
 require("dotenv").config();
@@ -21,7 +21,7 @@ app.use("/professional", professionalRouter);
 app.use("/services", serviceRouter);
 app.use("/appointment", appoinmentRouter);
 
-app.use("/", googleRouter);
+// app.use("/", googleRouter);
 // app.get("/", (req, res) => {
 //   res.send("heelllooo");
 // });
